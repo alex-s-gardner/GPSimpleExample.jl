@@ -72,4 +72,6 @@ colorrange = (-5, 5);
 cmap = :balance
 
 fig = Figure()
-scatter(df.X, df.Y; color=pred, colormap=cmap, markersize=1, strokewidth=0, colorrange=colorrange)
+sp = scatter(df.X, df.Y; color=pred, colormap=cmap, markersize=1, strokewidth=0, colorrange=colorrange)
+
+save("assets/example.png", sp)
