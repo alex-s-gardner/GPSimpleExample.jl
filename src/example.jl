@@ -45,6 +45,8 @@ df[!, :X], df[!, :Y] = GPSimpleExample.epsg2epsg(copy(df.longitude), copy(df.lat
 
 
 @time gp = GP(X, vec(Float64.(dhdt_anom_foo)), mZero, kern, log(0.24))
+
+#= ------------- Test using sparse GP -----------------
 Xu1 = Matrix(quantile(X[1,:], [0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6,0.65, 0.7, 0.98])')
 Xu2 = Matrix(quantile(X[2,:], [0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6,0.65, 0.7, 0.98])')
 Xu3 = Matrix(quantile(X[3,:], [0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6,0.65, 0.7, 0.98])')
@@ -52,6 +54,8 @@ Xu3 = Matrix(quantile(X[3,:], [0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6,0
 Xu = vcat(Xu1, Xu2, Xu3)
 
 @time gp = GaussianProcesses.DTC(X, Xu, vec(dhdt_anom_foo), mZero, kern, log(0.24))
+#------------------------------------------------------
+=#
 
 # # load grid data
 # df = DataFrame(Arrow.Table(grid_file))
@@ -61,7 +65,6 @@ Xu = vcat(Xu1, Xu2, Xu3)
 
 # read grid data
 df = DataFrame(Arrow.Table(grid_file * "_small"))
-
 
 Xp = vcat(df.X', df.Y', df.h')
 @time Yp, Sp = predict_y(gp, Xp)
